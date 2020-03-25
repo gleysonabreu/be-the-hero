@@ -26,13 +26,18 @@ export default function NewIncident(){
 
     try{
 
-      await api.post('/incidents', data, {
-        headers: {
-          Authorization: ongId
-        }
-      })
+      if( title != '' && description != '' && value != '' ){
 
-      history.push('/profile');
+        await api.post('/incidents', data, {
+          headers: {
+            Authorization: ongId
+          }
+        })
+        history.push('/profile');
+    
+    }else{
+      alert("Preencha todos os campos.");
+    }
 
     }catch (err){
       alert("Erro ao cadastrar caso, tente novamente.");

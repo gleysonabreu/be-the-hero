@@ -27,10 +27,15 @@ export default function Register(){
     };
 
     try{
-      const response = await api.post('ongs', data);
-      alert(`Seu ID de acesso: ${response.data.id}`)
+      
+      if( name != '' && email != '' && whatsapp != '' && city != '' && uf != '' ){
+        const response = await api.post('ongs', data);
+        alert(`Seu ID de acesso: ${response.data.id}`);
+        history.push('/');
+      }else{
+        alert("Preencha todos os campos!");
+      }
 
-      history.push('/');
     }catch(err){
       alert('Erro no cadastro, tente novamente.');
     }
