@@ -8,13 +8,17 @@ import { useNavigation } from '@react-navigation/native';
 import api from '../../services/api';
 
 export default function Incidents(){
+
   const navigation = useNavigation();
+
   const [incidents, setIncidents] = useState([]);
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+
   const [search, setSearch] = useState("");
   const [active, setActive] = useState(true);
+  const [searchItems, setSearchItems] = useState([]);
 
   async function loadIncidents(){
 
@@ -44,21 +48,19 @@ export default function Incidents(){
   }
 
   async function searchResponse (searchText) {
+    setActive(false);
     setSearch(searchText);
     if(search.length > 3){
       const response = await api.get('incidents/search', {
         params: { search: search }
       });
-      setIncidents([]);
-      setIncidents([...response.data]);
-  
+      setSearchItems([]);
+      setSearchItems(response.data);
     }
   }
 
   function clear(){
-    setIncidents([]);
-    setPage(1);
-    loadIncidents();
+    setActive(true);
   }
   return (
     <View style={styles.container}>
@@ -72,6 +74,7 @@ export default function Incidents(){
       <SearchBar
         containerStyle={styles.search}
         onClear={clear}
+        onCancel={clear}
         placeholder="Pesquisar caso"
         platform="ios"
         onChangeText={searchResponse}
@@ -82,10 +85,10 @@ export default function Incidents(){
       <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia.</Text>
 
     <FlatList style={styles.incidentsList}
-      data={incidents}
+      data={active ? incidents : searchItems}
       keyExtractor={incident => String(incident.id)}
       showsVerticalScrollIndicator={false}
-      onEndReached={false}
+      onEndReached={active ? () => loadIncidents() : false}
       onEndReachedThreshold={0.2}
       renderItem={({ item: incident }) => (
         <View style={styles.incident}>
