@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, FlatList, Image, Text, TouchableOpacity } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 import logo from '../../assets/logo.png';
 import styles from './styles';
 import { Feather } from '@expo/vector-icons';
@@ -12,6 +13,8 @@ export default function Incidents(){
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState("");
+  const [active, setActive] = useState(true);
 
   async function loadIncidents(){
 
@@ -39,6 +42,24 @@ export default function Incidents(){
   function navigateToDetail(incident){
     navigation.navigate('Details', { incident });
   }
+
+  async function searchResponse (searchText) {
+    setSearch(searchText);
+    if(search.length > 3){
+      const response = await api.get('incidents/search', {
+        params: { search: search }
+      });
+      setIncidents([]);
+      setIncidents([...response.data]);
+  
+    }
+  }
+
+  function clear(){
+    setIncidents([]);
+    setPage(1);
+    loadIncidents();
+  }
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -48,6 +69,15 @@ export default function Incidents(){
         </Text>
       </View>
 
+      <SearchBar
+        containerStyle={styles.search}
+        onClear={clear}
+        placeholder="Pesquisar caso"
+        platform="ios"
+        onChangeText={searchResponse}
+        value={search}
+      />
+
       <Text style={styles.title}>Bem-vindo!</Text>
       <Text style={styles.description}>Escolha um dos casos abaixo e salve o dia.</Text>
 
@@ -55,7 +85,7 @@ export default function Incidents(){
       data={incidents}
       keyExtractor={incident => String(incident.id)}
       showsVerticalScrollIndicator={false}
-      onEndReached={loadIncidents}
+      onEndReached={false}
       onEndReachedThreshold={0.2}
       renderItem={({ item: incident }) => (
         <View style={styles.incident}>

@@ -22,7 +22,6 @@ export default StyleSheet.create({
   title: {
     fontSize: 30,
     marginBottom: 16,
-    marginTop: 48,
     color: "#13131A",
     fontWeight: 'bold'
   },
@@ -60,6 +59,10 @@ export default StyleSheet.create({
     color: "#E02041",
     fontSize: 15,
     fontWeight: 'bold'
+  },
+  search: {
+    marginTop: 16,
+    backgroundColor: "transparent"
   },
 
 });
