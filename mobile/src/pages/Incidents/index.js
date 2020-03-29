@@ -43,8 +43,12 @@ export default function Incidents(){
     loadIncidents()
   }, [])
 
-  function navigateToDetail(incident){
-    navigation.navigate('Details', { incident });
+  function navigateToDetails(incident){
+    navigation.navigate("Details", { incident } );
+  }
+
+  function navigateToProfile(ong_id, ong){
+    navigation.navigate("Profile", { ong_id, ong });
   }
 
   async function searchResponse (searchText) {
@@ -93,8 +97,11 @@ export default function Incidents(){
       renderItem={({ item: incident }) => (
         <View style={styles.incident}>
           <Text style={styles.incidentProperty}>ONG:</Text>
-          <Text style={styles.incidentValue}>{incident.name}</Text>
-
+          <TouchableOpacity
+            onPress={() => navigateToProfile(incident.ong_id, incident.name)}
+          >
+            <Text style={[styles.incidentValue, { color: "#E02041", fontWeight: 'bold' }]}>{incident.name}</Text>
+          </TouchableOpacity>
           <Text style={styles.incidentProperty}>CASO:</Text>
           <Text style={styles.incidentValue}>{incident.title}</Text>
 
@@ -103,7 +110,7 @@ export default function Incidents(){
 
           <TouchableOpacity 
             style={styles.detailButton} 
-            onPress={() => navigateToDetail(incident)}>
+            onPress={() => navigateToDetails(incident)}>
               <Text style={styles.detailButtonText}>Ver mais detalhes</Text>
               <Feather name="arrow-right" size={16} color="#E82041" />
             </TouchableOpacity>

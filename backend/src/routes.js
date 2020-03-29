@@ -36,6 +36,10 @@ routes.get('/profile', celebrate({
   [Segments.HEADERS]: Joi.object({
     authorization: Joi.string().required()
   }).unknown()
+}), celebrate({
+  [Segments.QUERY]: Joi.object().keys({
+    page: Joi.number()
+  })
 }), ProfileController.index);
 
 module.exports = routes;

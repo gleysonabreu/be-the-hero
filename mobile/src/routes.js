@@ -6,6 +6,7 @@ const AppStack = createStackNavigator();
 
 import Incidents from './pages/Incidents';
 import Details from './pages/Details';
+import Profile from './pages/Profile';
 
 export default function Routes(){
   return(
@@ -13,6 +14,7 @@ export default function Routes(){
       <AppStack.Navigator screenOptions={{ headerShown: false }}>
         <AppStack.Screen name="Incidents" component={Incidents} />
         <AppStack.Screen name="Details" component={Details} />
+        <AppStack.Screen name="Profile" component={Profile} />
       </AppStack.Navigator>
     </NavigationContainer>
   );
