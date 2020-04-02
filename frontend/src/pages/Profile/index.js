@@ -35,7 +35,7 @@ export default function Profile(){
   async function handleDeleteIncident(id){
 
     try{
-      setModal(false);
+      setModal(true);
       await api.delete(`incidents/${id}`, {
         headers: {
           Authorization: ongId
