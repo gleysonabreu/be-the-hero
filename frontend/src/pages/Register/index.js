@@ -4,6 +4,7 @@ import { FiArrowLeft } from 'react-icons/fi';
 import './styles.css';
 import logo from '../../assets/logo.svg';
 import api from '../../services/api';
+import Modal from '../../components/Modal';
 
 export default function Register(){
 
@@ -12,8 +13,17 @@ export default function Register(){
   const [whatsapp, setWhatsapp] = useState('');
   const [city, setCity] = useState('');
   const [uf, setUf] = useState('');
+  const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
 
   const history = useHistory();
+
+  function close(){
+    setModal(false);
+    setLoading(false);
+    setMessage('');
+  }
 
   async function handleRegister(event){
     event.preventDefault();
@@ -27,23 +37,25 @@ export default function Register(){
     };
 
     try{
-      
-      if( name != '' && email != '' && whatsapp != '' && city != '' && uf != '' ){
+        setModal(true);
         const response = await api.post('ongs', data);
-        alert(`Seu ID de acesso: ${response.data.id}`);
-        history.push('/');
-      }else{
-        alert("Preencha todos os campos!");
-      }
-
+        setLoading(false);
+        setMessage(`Seu ID de acesso: ${response.data.id}, em segundos você será redirecionado para o login, aguarde..`);
+        setTimeout(() => { history.push('/') }, 10000);
     }catch(err){
-      alert('Erro no cadastro, tente novamente.');
+      setLoading(false);
+      if(err.response.data.message){
+        setMessage(err.response.data.message);
+      }else{
+        setMessage(err.response.data.error);
+      }
     }
 
   }
 
   return(
     <div className="register-container">
+      <Modal message={message} display={modal} loading={loading} close={() => close()} />
       <div className="content">
         <section>
           <img src={logo} alt="Be The Hero" />
