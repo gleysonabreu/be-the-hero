@@ -12,5 +12,5 @@ This project is divided in three step, first in an project backend using Node to
 ### CREDITS
 <p align="center">
 Project developed by [Gleyson Abreu](https://github.com/gleysonabreu "Gleyson Abreu") and [Rocketseat](http://rocketseat.com.br/ "Rocketseat").
-*Modifications* maked by [Gleyson Abreu](https://github.com/gleysonabreu "Gleyson Abreu").
+*Modifications* maked by [Gleyson Abreu](https://github.com/gleysonabreu "Gleyson Abreu")..
 </p>
