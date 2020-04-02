@@ -6,7 +6,7 @@ import './styles.css';
 function Modal({ message, display, loading, close }){
   
   return(
-    <div className="modal" style={{ display: display ? 'flex' : 'none' }}>
+    <div className={`${ display ? 'modalShow' : 'modalHide' } modal`}>
       <div className="content">
        <div className="close">
          <a href="#" onClick={() => close()}><FiX size={20} color="#E02041"/></a>

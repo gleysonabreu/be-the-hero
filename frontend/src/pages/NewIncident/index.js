@@ -4,6 +4,7 @@ import logo from '../../assets/logo.svg';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft } from 'react-icons/fi';
 import api from '../../services/api';
+import Modal from '../../components/Modal';
 
 
 export default function NewIncident(){
@@ -15,37 +16,50 @@ export default function NewIncident(){
   const [description, setDescription] = useState('');
   const [value, setValue] = useState('');
 
+  const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
+
+  function close(){
+    setModal(false);
+    setLoading(false);
+    setMessage("");
+  }
+
   async function handleNewIncident(e){
     e.preventDefault();
-
-    const data = {
+    const dataIncident = {
       title,
       description,
       value
     };
 
     try{
-
-      if( title != '' && description != '' && value != '' ){
-
-        await api.post('/incidents', data, {
+        setModal(true);
+        const response = await api.post('/incidents', dataIncident, {
           headers: {
             Authorization: ongId
           }
-        })
-        history.push('/profile');
-    
-    }else{
-      alert("Preencha todos os campos.");
-    }
+        });
+        console.log(response);
+        setLoading(false);
+        setMessage("Success, incident created. Wait, redirecting you...");
+        setTimeout(() => { history.push('/profile') }, 10000);
 
-    }catch (err){
-      alert("Erro ao cadastrar caso, tente novamente.");
+    }catch(err){
+      setLoading(false);
+      console.log(err);
+      if(err.response.data.message){
+        setMessage(err.response.data.message);
+      }else{
+        setMessage("Erro ao cadastrar caso, tente novamente.");
+      }
     }
   }
   
   return (
     <div className="new-incident-container">
+      <Modal message={message} display={modal} loading={loading} close={() => close()}/>
       <div className="content">
         <section>
           <img src={logo} alt="Be The Hero" />
