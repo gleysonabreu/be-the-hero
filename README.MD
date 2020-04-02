@@ -1,5 +1,5 @@
 ### BE THE HERO
-![Logo BTH](https://imgur.com/EwWoyq4.png)
+![Logo BTH](https://imgur.com/EwWoyq4.png)<br />
 This is project create to learn react, reactjs, react native, expo. OmniStack week is course online free to learn various technologies this time was raised an project called Be The Hero to help NGO some people donate to  help an animal that need help.
 This project is divided in three step, first in an project backend using Node to create API system, second frontend project to create an website online using reactjs, third mobile project to create an app mobile for iOS and Android devices using Expo, React Native.
 
