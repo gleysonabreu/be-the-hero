@@ -4,12 +4,16 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiPower, FiTrash2 } from 'react-icons/fi';
 import logo from '../../assets/logo.svg';
 import api from '../../services/api';
+import Modal from '../../components/Modal';
 
 export default function Profile(){
   
   const ongId = localStorage.getItem('ongId');
   const ongName = localStorage.getItem("ongName");
   const [incidents, setIncidents] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState("");
   const history = useHistory();
 
   useEffect(() => {
@@ -22,18 +26,34 @@ export default function Profile(){
     })
   }, [ongId]);
 
+  function close(){
+    setModal(false);
+    setLoading(false);
+    setMessage('');
+  }
+
   async function handleDeleteIncident(id){
+
     try{
+      setModal(true);
       await api.delete(`incidents/${id}`, {
         headers: {
           Authorization: ongId
         }
       });
-
       setIncidents(incidents.filter(incident => incident.id !== id));
+      setLoading(false);
+      setMessage("Success, incident deleted.");
 
     }catch(err){
-      alert("Erro ao deletar caso, tente novamente.");
+      setLoading(false);
+      if(err.response.data.message){
+        setMessage(err.response.data.message);
+      }else if( err.response.data.error ){
+        setMessage(err.response.data.error);
+      }else{
+        setMessage("Erro ao deletar caso, tente novamente.");
+      }
     }
   }
 
@@ -46,6 +66,7 @@ export default function Profile(){
 
   return (
     <div className="profile-container">
+      <Modal message={message} display={modal} loading={loading} close={() => close()}/>
       <header>
         <img src={logo} alt="Logo" />
         <span>Bem-vindo, {ongName}.</span>
