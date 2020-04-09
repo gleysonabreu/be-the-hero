@@ -5,6 +5,7 @@ This is mobile project to execute on smartphones with Android and iOS. <br />
 ![ONG PROFILE](https://imgur.com/FtVVL7R.png)<br />
 ![SEARCH INCIDENT](https://imgur.com/iYgkfUq.png)<br />
 Requirements to execute this project is NodeJS, Npm, Expo CLI, download Expo app on your smartphone. <br />
+Download the repository [Backend project](https://github.com/gleysonabreu/be-the-hero/tree/master/backend "Backend project") to execute DB.<br />
 ```
 npm install (to install all node_modules)
 npm install expo-cli --global (install explo global in your PC)
