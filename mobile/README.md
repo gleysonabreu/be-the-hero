@@ -6,6 +6,17 @@ This is mobile project to execute on smartphones with Android and iOS. <br />
 ![SEARCH INCIDENT](https://imgur.com/iYgkfUq.png)<br />
 Requirements to execute this project is NodeJS, Npm, Expo CLI, download Expo app on your smartphone. <br />
 Download the repository [Backend project](https://github.com/gleysonabreu/be-the-hero/tree/master/backend "Backend project") to execute DB.<br />
+First modify file in folder src/services/api.js change my ip to your ip. <br />
+```
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: 'http://YOUR IP:3333/'
+});
+
+export default api;
+```
+AND execute commands below <br />
 ```
 npm install (to install all node_modules)
 npm install expo-cli --global (install explo global in your PC)
